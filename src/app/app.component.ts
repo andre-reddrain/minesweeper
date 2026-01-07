@@ -11,6 +11,7 @@ import { GameOverComponent } from "./game-over/game-over.component";
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
+
 export class AppComponent {
   // Debug Variables
   isDebug = false;
@@ -20,10 +21,15 @@ export class AppComponent {
   title = 'Minesweeper';
   board = new Board(30, 30, 200);
   boardResult = '';
+  boardVariables = [0, 0, 0]
 
   // TODO Difficulties:
   // 10 on Beginner (9x9 grid), 40 on Intermediate (16x16 grid), and 99 on Expert (30x16 grid) & Custom (max 30, any bombs)
 
+  /**
+   * Verifica a célula, e determina o estado do jogo.
+   * @param cell Célula a ser verificada
+   */
   checkCell(cell: Cell) {
     if (this.board.result === null) {
       this.board.result = this.board.checkCell(cell);
@@ -37,8 +43,15 @@ export class AppComponent {
     }
   }
 
+  /**
+   * Transforma uma célula numa flag
+   * @param cell Célula a ser transformada numa flag
+   */
   flag(cell: Cell) {
+    // Vai criar flags se o jogo ainda não acabou
     if (this.board.result === null) {
+
+      // Se já tiver uma flag, reverte-a
       if(cell.status === 'flag') {
         cell.status = 'open';
       } else if (cell.status !== 'clear') {
@@ -47,6 +60,9 @@ export class AppComponent {
     }
   }
 
+  /**
+   * Reset ao tabuleiro. Começa um novo jogo
+   */
   reset() {
     this.board = new Board(5, 5, 5);
     this.boardResult = '';

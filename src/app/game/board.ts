@@ -8,6 +8,12 @@ export class Board {
     mineCount = 0;
     result: string | null = null;
 
+    /**
+     * Construtor base do tabuleiro
+     * @param rows Linhas do tabuleiro
+     * @param cols Colunas do tabuleiro
+     * @param mines Minas do tabuleiro
+     */
     constructor(rows: number, cols: number, mines: number) {
         // Rows
         for (let row = 0; row < rows; row++) {
@@ -19,16 +25,17 @@ export class Board {
             }
         }
 
-        // Assign Mines
+        // Alocação das minas
         for (let i = 0; i < mines; i++) {
             this.getRandomCell().mine = true;
         }
 
-        // Count mines
+        // Contagem das minas
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
                 let adjacentMines = 0;
 
+                // 
                 for (let prox of PROXIMITY) {
                     if (
                         this.cells[row + prox[0]] &&
@@ -40,6 +47,7 @@ export class Board {
                 }
                 this.cells[row][col].proximityMines = adjacentMines;
 
+                // Incremento do nº de minas
                 if (this.cells[row][col].mine) {
                     this.mineCount++;
                 }
@@ -48,25 +56,37 @@ export class Board {
         this.remainingCells = (rows * cols) - this.mineCount;
     }
 
+    /**
+     * Escolhe aleatoriamente uma célula do tabuleiro.
+     * Pode escolher células repetidas.
+     * @returns Célula
+     */
     getRandomCell(): Cell {
         const row = Math.floor(Math.random() * this.cells.length);
         const col = Math.floor(Math.random() * this.cells[row].length);
         return this.cells[row][col]
     }
 
+    /**
+     * Verifica o estado da célula clicada.
+     * Dependente do estado da célula, termina o jogo ou revela mais células.
+     * @param cell Célula a ser verificada
+     * @returns Condition se o jogo acabou. Null se não
+     */
     checkCell(cell: Cell): string | null {
         // console.log(cell);
         let condition = '';
 
+        // Verificação do status da célula
         if (cell.status !== "open") {
-            //condition = null;
             return null;
         } else if (cell.mine) {
-            this.revealAll();
+            // A célula é uma mina. Game over!
             condition = 'gameover';
         } else {
             cell.status = "clear";
 
+            // Se a célula não tem minas na sua proximidade, vai, recursivamente, mostrar as células ao seu redor.
             if(cell.proximityMines === 0) {
                 for (let prox of PROXIMITY) {
                     if (
@@ -78,11 +98,13 @@ export class Board {
                 }
             }
 
+            // Condição de vitória
             if(this.remainingCells-- <= 1) {
                 condition = 'win';
             }
         }
 
+        // Vai revelar tudo se o jogo já tiver acabado
         if (condition !== '') {
             this.revealAll();
             return condition;
@@ -91,6 +113,9 @@ export class Board {
         return null;
     }
 
+    /**
+     * Revela todas as casas ainda por jogar.
+     */
     revealAll() {
         for (const row of this.cells) {
             for (const cell of row) {
