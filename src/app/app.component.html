@@ -1,7 +1,4 @@
-<style>
-
-</style>
-<div>
+<div *ngIf="isDebug">
   <h3>Debug only!</h3>
   <p>Bomb counter: {{ board.mineCount }}</p>
   <p>Remaining cells: {{ board.remainingCells }}</p>
@@ -17,29 +14,41 @@
     </div>
   </div>
 </div>
-Board:
-<table>
-  <tr *ngFor="let row of board.cells; index as y">
-    <td    
-      style="font-size: 32px"
-      *ngFor="let cell of row; index as x"
-      [ngClass]="cell.status !== 'flag' && !cell.mine ? 'number-' + cell.proximityMines : ''"
-      [style.background-color]="(cell.status === 'open' || cell.status === 'flag') ? 'lightgray' : 'rgb(192, 192, 192)'"
-      (click)="checkCell(cell)"
-      (contextmenu)="$event.preventDefault(); flag(cell)"
-    >
-      <!-- Célula vazia -->
-      <div *ngIf="cell.status === 'clear' && !cell.mine && cell.proximityMines > 0">
-        {{ cell.proximityMines }}
-      </div>
 
-      <!-- Flag -->
-      <div style="color: red" *ngIf="cell.status === 'flag'">`</div>
+<div class="wrapper">
+  <app-game-over 
+    *ngIf="board.result !== null"
+    [result]="board.result === 'win' ? 'You won!' : board.result === 'gameover' ? 'You lost!' : ''"
+    (rematch)="reset()">
+  </app-game-over>
 
-      <!-- Mina -->
-      <div *ngIf="cell.mine && cell.status === 'clear'">*</div>
-    </td>
-  </tr>
-</table>
+  <h1>Minesweeper</h1>
 
-<button (click)="reset()">Restart</button>
+  <table [style.--rows]="board.cells.length" [style.--cols]="board.cells[0].length">
+    <tr *ngFor="let row of board.cells">
+      <td 
+        *ngFor="let cell of row"
+        [style.background-color]="(cell.status === 'open' || cell.status === 'flag') ? 'lightgray' : 'rgb(192, 192, 192)'"
+        (click)="checkCell(cell)"
+        (contextmenu)="$event.preventDefault(); flag(cell)"
+      >
+        <!-- single wrapper for flex centering -->
+        <div class="cell-content"
+            [ngClass]="cell.status !== 'flag' && !cell.mine ? 'number-' + cell.proximityMines : ''">
+          
+          <!-- Use inline elements only -->
+          <span *ngIf="cell.status === 'clear' && !cell.mine && cell.proximityMines > 0">
+            {{ cell.proximityMines }}
+          </span>
+
+          <span class="flag" *ngIf="cell.status === 'flag'">`</span>
+          <span *ngIf="cell.mine && cell.status === 'clear'">*</span>
+
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- <button (click)="board = gameOver.reset()">Restart</button> -->
+  <button (click)="reset()">Restart</button>
+</div>
