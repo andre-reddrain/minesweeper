@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: "Microsoft Minesweeper Sans";
+  src: url("./assets/fonts/microsoft-minesweeper-sans.otf.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: "Microsoft Minesweeper Sans", sans-serif;
+  font-size: 16px;
+
+  /* pixel-perfect rendering for pixel fonts */
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+.number-1 { color: rgb(0, 1, 249); }
+.number-2 { color: rgb(1, 126, 0); }
+.number-3 { color: rgb(253, 0, 1); }
+.number-4 { color: rgb(1, 1, 128); }
+.number-5 { color: rgb(129, 3, 0); }
+.number-6 { color: rgb(2, 127, 128); }
+.number-7 { color: rgb(0, 0, 0); }
+.number-8 { color: rgb(128, 128, 128); }
