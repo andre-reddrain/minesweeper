@@ -16,7 +16,7 @@ export class AppComponent {
   specialChars = ['`', '*', "\u{1F60E}", "\u{1F62E}", "\u{1F635}", "\u{1F642}"];
 
   title = 'Minesweeper';
-  board = new Board(5, 5);
+  board = new Board(9, 9, 10);
 
   // TODO Difficulties:
   // 10 on Beginner (9x9 grid), 40 on Intermediate (16x16 grid), and 99 on Expert (30x16 grid) & Custom (any dimension, any bombs)
@@ -45,6 +45,6 @@ export class AppComponent {
   }
 
   reset() {
-    this.board = new Board(5, 5);
+    this.board = new Board(5, 5, 5);
   }
 }

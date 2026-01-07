@@ -16,6 +16,23 @@ body {
   font-smooth: never;
 }
 
+table,
+td {
+  border: 1px solid gray;
+  border-collapse: collapse;
+}
+td {
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  display: inline-flex;
+
+  box-shadow:
+    inset 1px 1px 0 #ffffff,
+    inset -1px -1px 0 #7a7a7a;
+}
+
 .number-1 { color: rgb(0, 1, 249); }
 .number-2 { color: rgb(1, 126, 0); }
 .number-3 { color: rgb(253, 0, 1); }

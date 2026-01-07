@@ -8,13 +8,13 @@ export class Board {
     mineCount = 0;
     result: string | null = null;
 
-    constructor(size: number, mines: number) {
+    constructor(rows: number, cols: number, mines: number) {
         // Rows
-        for (let row = 0; row < size; row++) {
+        for (let row = 0; row < rows; row++) {
             this.cells[row] = [];
 
             // Cols
-            for (let col = 0; col < size; col++) {
+            for (let col = 0; col < cols; col++) {
                 this.cells[row][col] = new Cell(row, col);
             }
         }
@@ -25,8 +25,8 @@ export class Board {
         }
 
         // Count mines
-        for (let row = 0; row < size; row++) {
-            for (let col = 0; col < size; col++) {
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
                 let adjacentMines = 0;
 
                 for (let prox of PROXIMITY) {
@@ -45,7 +45,7 @@ export class Board {
                 }
             }
         }
-        this.remainingCells = (size * size) - this.mineCount;
+        this.remainingCells = (rows * cols) - this.mineCount;
     }
 
     getRandomCell(): Cell {

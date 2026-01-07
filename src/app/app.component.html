@@ -1,49 +1,43 @@
 <style>
-  table, td {
-    border: 1px solid gray;
-    border-collapse: collapse;
-  }
-  td {
-    width: 32px;
-    height: 32px;
-    align-items: center;
-    justify-content: center;
-    display: inline-flex;
-  }
-  svg {
-    width: 32px;
-    height: 32px;
-  }
+
 </style>
 <div>
   <h3>Debug only!</h3>
-  <p>Bomb counter: {{board.mineCount}}</p>
-  <p>Remaining cells: {{board.remainingCells}}</p>
-  <div style="display: inline flex; column-gap: 30px;">
+  <p>Bomb counter: {{ board.mineCount }}</p>
+  <p>Remaining cells: {{ board.remainingCells }}</p>
+  <div style="display: inline flex; column-gap: 30px">
     <div *ngFor="let number of numbers">
-      <span [ngClass]="'number-' + number">{{number}}</span>
+      <span [ngClass]="'number-' + number">{{ number }}</span>
     </div>
   </div>
-  <br>
-  <div style="display: inline flex; column-gap: 30px;">
+  <br />
+  <div style="display: inline flex; column-gap: 30px">
     <div *ngFor="let special of specialChars">
-      <span style="color: black;">{{special}}</span>
+      <span style="color: black">{{ special }}</span>
     </div>
   </div>
 </div>
 Board:
 <table>
   <tr *ngFor="let row of board.cells; index as y">
-    <td style="font-size: 32px;" *ngFor="let cell of row; index as x" (click)="checkCell(cell)" (contextmenu)="$event.preventDefault();flag(cell)">
-      <!-- <div>{{y}},{{x}}</div> -->
-      <!-- <div>Status: {{cell.status}}</div> -->
-      <div [ngClass]="'number-' + cell.proximityMines" *ngIf="cell.status === 'clear' && !cell.mine">{{cell.proximityMines}}</div>
-      <div style="color: red;" *ngIf="cell.status === 'flag'">
-        `
+    <td    
+      style="font-size: 32px"
+      *ngFor="let cell of row; index as x"
+      [ngClass]="cell.status !== 'flag' && !cell.mine ? 'number-' + cell.proximityMines : ''"
+      [style.background-color]="(cell.status === 'open' || cell.status === 'flag') ? 'lightgray' : 'rgb(192, 192, 192)'"
+      (click)="checkCell(cell)"
+      (contextmenu)="$event.preventDefault(); flag(cell)"
+    >
+      <!-- Célula vazia -->
+      <div *ngIf="cell.status === 'clear' && !cell.mine && cell.proximityMines > 0">
+        {{ cell.proximityMines }}
       </div>
-      <div *ngIf="cell.mine && cell.status === 'clear'">
-        *
-      </div>
+
+      <!-- Flag -->
+      <div style="color: red" *ngIf="cell.status === 'flag'">`</div>
+
+      <!-- Mina -->
+      <div *ngIf="cell.mine && cell.status === 'clear'">*</div>
     </td>
   </tr>
 </table>
