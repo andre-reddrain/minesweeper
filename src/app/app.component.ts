@@ -19,9 +19,17 @@ export class AppComponent {
   specialChars = ['`', '*', "\u{1F60E}", "\u{1F62E}", "\u{1F635}", "\u{1F642}"];
 
   title = 'Minesweeper';
-  board = new Board(30, 30, 200);
+  board = new Board(30, 30, 5);
   boardResult = '';
   boardVariables = [0, 0, 0]
+
+  // Variáveis de UI - Emoji Face
+  startIcon = "\u{1F642}";
+  playIcon = "\u{1F62E}";
+  winIcon = "\u{1F60E}";
+  loseIcon = "\u{1F635}";
+
+  gameStateIcon = this.startIcon;
 
   // TODO Difficulties:
   // 10 on Beginner (9x9 grid), 40 on Intermediate (16x16 grid), and 99 on Expert (30x16 grid) & Custom (max 30, any bombs)
@@ -31,14 +39,19 @@ export class AppComponent {
    * @param cell Célula a ser verificada
    */
   checkCell(cell: Cell) {
+    this.gameStateIcon = this.playIcon;
     if (this.board.result === null) {
       this.board.result = this.board.checkCell(cell);
       // console.log(this.result)
       
       if (this.board.result === 'gameover') {
         this.boardResult = 'You lose!';
+        this.gameStateIcon = this.loseIcon;
       } else if (this.board.result === 'win') {
         this.boardResult = 'You win!';
+        this.gameStateIcon = this.winIcon;
+      } else {
+        this.gameStateIcon = this.startIcon;
       }
     }
   }
@@ -66,5 +79,6 @@ export class AppComponent {
   reset() {
     this.board = new Board(5, 5, 5);
     this.boardResult = '';
+    this.gameStateIcon = this.startIcon;
   }
 }

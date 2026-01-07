@@ -24,6 +24,13 @@
 
   <h1>Minesweeper</h1>
 
+  <div>
+    <div class="cell-content">
+      <span style="background-color: yellow;">{{ gameStateIcon }}</span>
+    </div>
+  </div>
+  <br>
+
   <table [style.--rows]="board.cells.length" [style.--cols]="board.cells[0].length">
     <tr *ngFor="let row of board.cells">
       <td 
