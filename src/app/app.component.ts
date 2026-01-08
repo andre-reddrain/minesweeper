@@ -1,18 +1,33 @@
 import { Component } from '@angular/core';
-import { Board } from './game/board'
 import { NgFor, NgIf, NgClass } from '@angular/common';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms'
+
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+
+import { Board } from './game/board'
 import { Cell } from './game/cell';
+
 import { GameStartComponent } from './game-start/game-start.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, GameStartComponent],
+  imports: [NgFor, NgIf, NgClass, ButtonModule, DialogModule, FormsModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 
 export class AppComponent {
+  // Dialog
+  visible: boolean = false;
+
+  showDialog() {
+    console.log('Dialog open attempt')
+    this.visible = true;
+  }
+
   // Debug Variables
   isDebug = false;
   numbers = [1,2,3,4,5,6,7,8];
