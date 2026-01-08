@@ -16,17 +16,28 @@
 </div>
 
 <div class="wrapper">
-  <app-game-over 
+  <!-- <app-game-over 
     *ngIf="board.result !== null"
     [result]="board.result === 'win' ? 'You won!' : board.result === 'gameover' ? 'You lost!' : ''"
     (rematch)="reset()">
-  </app-game-over>
+  </app-game-over> -->
+
+  <!-- <app-game-start>
+
+  </app-game-start> -->
 
   <h1>Minesweeper</h1>
 
-  <div>
+  <!-- TODO Pass this to a component! Use flex-box space-between! -->
+  <div class="header">
     <div class="cell-content">
-      <span style="background-color: yellow;">{{ gameStateIcon }}</span>
+      <span 
+        style="background-color: yellow;"
+        (click)="checkGameState(board.result)"
+      >{{ gameStateIcon }}</span>
+    </div>
+    <div class="cell-content">
+      <p>Timer WIP!</p>
     </div>
   </div>
   <br>
@@ -50,7 +61,6 @@
 
           <span class="flag" *ngIf="cell.status === 'flag'">`</span>
           <span *ngIf="cell.mine && cell.status === 'clear'">*</span>
-
         </div>
       </td>
     </tr>

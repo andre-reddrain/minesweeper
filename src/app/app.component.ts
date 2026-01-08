@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { Board } from './game/board'
 import { NgFor, NgIf, NgClass } from '@angular/common';
 import { Cell } from './game/cell';
-import { GameOverComponent } from "./game-over/game-over.component";
+import { GameStartComponent } from './game-start/game-start.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, GameOverComponent],
+  imports: [NgFor, NgIf, NgClass, GameStartComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -19,8 +19,8 @@ export class AppComponent {
   specialChars = ['`', '*', "\u{1F60E}", "\u{1F62E}", "\u{1F635}", "\u{1F642}"];
 
   title = 'Minesweeper';
-  board = new Board(30, 30, 5);
-  boardResult = '';
+  board = new Board(9, 9, 10);
+  resultMessage = 'New Game';
   boardVariables = [0, 0, 0]
 
   // Variáveis de UI - Emoji Face
@@ -40,15 +40,16 @@ export class AppComponent {
    */
   checkCell(cell: Cell) {
     this.gameStateIcon = this.playIcon;
-    if (this.board.result === null) {
+
+    if (this.board.result === 'ongoing') {
       this.board.result = this.board.checkCell(cell);
-      // console.log(this.result)
+      console.log(this.board.result)
       
       if (this.board.result === 'gameover') {
-        this.boardResult = 'You lose!';
+        this.resultMessage = 'You lose!';
         this.gameStateIcon = this.loseIcon;
       } else if (this.board.result === 'win') {
-        this.boardResult = 'You win!';
+        this.resultMessage = 'You win!';
         this.gameStateIcon = this.winIcon;
       } else {
         this.gameStateIcon = this.startIcon;
@@ -62,7 +63,7 @@ export class AppComponent {
    */
   flag(cell: Cell) {
     // Vai criar flags se o jogo ainda não acabou
-    if (this.board.result === null) {
+    if (this.board.result === 'ongoing') {
 
       // Se já tiver uma flag, reverte-a
       if(cell.status === 'flag') {
@@ -73,12 +74,21 @@ export class AppComponent {
     }
   }
 
+  checkGameState(result : string | null) {
+    console.log(result);
+    if (result === 'gameover' || result == 'win') {
+      this.reset();
+    } else if (result === 'start') {
+      // Open GameStartComponent
+    }
+  }
+
   /**
    * Reset ao tabuleiro. Começa um novo jogo
    */
   reset() {
     this.board = new Board(5, 5, 5);
-    this.boardResult = '';
+    this.resultMessage = '';
     this.gameStateIcon = this.startIcon;
   }
 }

@@ -6,7 +6,8 @@ export class Board {
     cells: Cell[][] = []
     remainingCells = 0;
     mineCount = 0;
-    result: string | null = null;
+    // result: string | null = 'start';    // start / ongoing / gameover / win
+    result: string | null = 'ongoing';
 
     /**
      * Construtor base do tabuleiro
@@ -79,7 +80,7 @@ export class Board {
 
         // Verificação do status da célula
         if (cell.status !== "open") {
-            return null;
+            return this.result;
         } else if (cell.mine) {
             // A célula é uma mina. Game over!
             condition = 'gameover';
@@ -110,7 +111,7 @@ export class Board {
             return condition;
         }
 
-        return null;
+        return this.result;
     }
 
     /**

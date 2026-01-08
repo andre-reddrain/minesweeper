@@ -9,7 +9,6 @@
 
 body {
   font-family: "Microsoft Minesweeper Sans", sans-serif;
-  font-size: 16px;
 
   /* pixel-perfect rendering for pixel fonts */
   -webkit-font-smoothing: none;
@@ -21,6 +20,8 @@ table {
   width: 80vmin;
   height: 80vmin;
   border-collapse: collapse;
+
+  font-size: calc(80vmin / var(--rows) * 0.6);
 }
 
 tr {
@@ -41,7 +42,7 @@ td {
 /* Optional: scale font to cell size */
 td span {
   display: inline-block;
-  font-size: clamp(12px, 2.5vmin, 32px);
+  font-size: clamp(14px, 90%, 40px);
   line-height: 1;
 }
 
