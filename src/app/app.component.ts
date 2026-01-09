@@ -112,24 +112,47 @@ export class AppComponent {
     }
   }
 
+  /**
+   * Verifica o estado do jogo.
+   * @param result Resultado do Jogo
+   */
   checkGameState(result : string | null) {
-    console.log(result);
+    // console.log(result);
     if (result === 'gameover' || result == 'win') {
       this.reset();
     }
   }
 
   /**
-   * Começa o timer
+   * Começa o timer. Vai aplicar regras, dependendo do valor do timer.
+   * Se o timer for 999, incrementa de 0 até 999
+   * Se o timer for diferente de 999, decrementa do valor até 0
    */
   startTimer() {
     this.stopTimer();
-    this.seconds = 0;
 
-    this.intervalId = setInterval(() => {
-      this.seconds++;
-      // console.log(this.seconds);
-    }, 1000)
+    const timer = this.currentBoardSettings?.timer;
+
+    if (timer !== undefined && timer !== 999) {
+      this.seconds = timer;
+      this.intervalId = setInterval(() => {
+        this.seconds--;
+
+        if (this.seconds === 0) {
+          this.setGameOver();
+        }
+      }, 1000)
+    } else {
+      this.seconds = 0;
+
+      this.intervalId = setInterval(() => {
+        this.seconds++;
+
+        if (this.seconds === 999) {
+          this.setGameOver();
+        }
+      }, 1000)
+    }
   }
 
   /**
@@ -183,6 +206,7 @@ export class AppComponent {
   onBoardSettings(settings: BoardSettings) {
     this.currentBoardSettings = settings;
     this.createBoard(settings);
+    this.stopTimer();
   }
 
   /**
@@ -196,5 +220,15 @@ export class AppComponent {
       settings.mines,
       settings.timer
     )
+  }
+
+  /**
+   * Acaba o jogo.
+   */
+  setGameOver() {
+    this.board.result = 'gameover';
+    this.gameState = 'lost';
+    this.stopTimer();
+    this.board.revealAll();
   }
 }
