@@ -10,6 +10,8 @@ import { Cell } from './game/cell';
 
 import { GameStartComponent } from './game-start/game-start.component';
 
+type GameState = 'idle' | 'pressed' | 'lost' | 'won';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -33,36 +35,45 @@ export class AppComponent {
 
   title = 'Minesweeper';
   board = new Board(9, 9, 10);
-  resultMessage = 'New Game';
+
   boardVariables = [0, 0, 0]
 
   // Variáveis de UI - Emoji Face
-  startIcon = "\u{1F642}";
-  playIcon = "\u{1F62E}";
-  winIcon = "\u{1F60E}";
-  loseIcon = "\u{1F635}";
+  gameState: GameState = 'idle';
 
-  gameStateIcon = this.startIcon;
+  // Variáveis de timer
+  seconds = 0;
+  private intervalId: any;
+
+  get formattedSeconds(): string {
+    return this.seconds.toString().padStart(3, '0');
+  }
 
   /**
    * Verifica a célula, e determina o estado do jogo.
    * @param cell Célula a ser verificada
    */
   checkCell(cell: Cell) {
-    this.gameStateIcon = this.playIcon;
+    console.log(this.board.result)
 
-    if (this.board.result === 'ongoing') {
+    if (this.board.result === 'ongoing' || this.board.result === 'start') {
+      if (this.board.result === 'start') {
+        this.board.result = 'ongoing';
+
+        this.startTimer();
+      }
+
       this.board.result = this.board.checkCell(cell);
       console.log(this.board.result)
       
       if (this.board.result === 'gameover') {
-        this.resultMessage = 'You lose!';
-        this.gameStateIcon = this.loseIcon;
+        this.gameState = 'lost';
+        this.stopTimer();
       } else if (this.board.result === 'win') {
-        this.resultMessage = 'You win!';
-        this.gameStateIcon = this.winIcon;
+        this.gameState = 'won';
+        this.stopTimer();
       } else {
-        this.gameStateIcon = this.startIcon;
+        this.gameState = 'idle';
       }
     }
   }
@@ -88,9 +99,42 @@ export class AppComponent {
     console.log(result);
     if (result === 'gameover' || result == 'win') {
       this.reset();
-    } else if (result === 'start') {
-      this.showDialog();
     }
+  }
+
+  /**
+   * Começa o timer
+   */
+  startTimer() {
+    this.stopTimer();
+    this.seconds = 0;
+
+    this.intervalId = setInterval(() => {
+      this.seconds++;
+      // console.log(this.seconds);
+    }, 1000)
+  }
+
+  /**
+   * Para o timer.
+   */
+  stopTimer() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
+  }
+
+  /**
+   * Altera o estado do jogo para corresponder ao icon de jogada.
+   * Prevente que esta alteração seja feita pelo Right Click.
+   * @param event MouseEvent
+   * @returns n/A
+   */
+  onMouseDown(event: MouseEvent) {
+    if (event.button !== 0) return;
+
+    this.gameState = 'pressed';
   }
 
   /**
@@ -98,7 +142,6 @@ export class AppComponent {
    */
   reset() {
     this.board = new Board(5, 5, 5);
-    this.resultMessage = '';
-    this.gameStateIcon = this.startIcon;
+    this.gameState = 'idle';
   }
 }

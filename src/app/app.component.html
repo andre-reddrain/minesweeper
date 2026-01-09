@@ -16,7 +16,7 @@
 </div>
 
 <!-- <p-button (click)="showDialog()" label="Show" /> -->
-<app-game-start [visible]="visible"></app-game-start>
+<app-game-start [(visible)]="visible"></app-game-start>
 
 <div class="wrapper">
   <div class="flex align-items-center game-header">
@@ -34,16 +34,13 @@
     </div>
 
     <!-- Emoji -->
-    <div class="flex align-items-center justify-content-center">
-      <span 
-        style="background-color: yellow;"
-        (click)="checkGameState(board.result)"
-      >{{ gameStateIcon }}</span>
+    <div class="flex align-items-center justify-content-center"(mouseup)="checkGameState(board.result)">
+      <img [src]="'/faces/' + gameState + '.png'" alt="Game state" width="45" height="45" draggable="false"/>
     </div>
 
     <!-- Timer -->
     <div class="flex-1 flex align-items-center justify-content-end">
-      <p>Timer WIP!</p>
+      <p class="timer">{{ formattedSeconds }}</p>
     </div>
   </div>
 
@@ -53,6 +50,7 @@
         <td 
           *ngFor="let cell of row"
           [style.background-color]="(cell.status === 'open' || cell.status === 'flag') ? 'lightgray' : 'rgb(192, 192, 192)'"
+          (mousedown)="onMouseDown($event)"
           (click)="checkCell(cell)"
           (contextmenu)="$event.preventDefault(); flag(cell)"
         >

@@ -9,6 +9,7 @@
 .game-header,
 .game-controls {
   width: 80vmin;
+  height: 8vmin;
 }
 
 .debug,
@@ -82,4 +83,10 @@
         0px -2px 0 #fff,
         0px 2px 0 #fff;
     }
+}
+
+.timer {
+  font-size: 3rem;
+  color: #ff0000;
+  letter-spacing: .1em;
 }

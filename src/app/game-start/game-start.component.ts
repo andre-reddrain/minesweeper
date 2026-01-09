@@ -6,6 +6,9 @@ import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { InputNumberModule } from 'primeng/inputnumber'
 
+/**
+ * Interface Difficulty.
+ */
 interface Difficulty {
   name: string;
   col: number;
@@ -22,18 +25,24 @@ interface Difficulty {
 })
 
 export class GameStartComponent {
-  @Input() visible: boolean = false;
+  // Difficulties
   difficulties: Difficulty[] | undefined;
   selectedDifficulty: Difficulty | undefined;
-  
-  // Vars to control UI
+
+  @Input() visible: boolean = false;
+  @Output() visibleChange = new EventEmitter<boolean>();
+
+  // Variáveis para controlar a UI
   userInput: boolean = false;
 
-  // Temp variables for binding
+  // Variáveis temporárias para binding
   colValue: number | null = null;
   rowValue: number | null = null;
   mineValue: number | null = null;
 
+  /**
+   * Quando é inicializado, vai popular as difficuldades.
+   */
   ngOnInit() {
     this.difficulties = [
       { name: "Beginner", col: 9, row: 9, mine: 10 },
@@ -43,6 +52,10 @@ export class GameStartComponent {
     ]
   }
 
+  /**
+   * Dependente da dificuldade selecionada, vai atualizar as várias variáveis de binding e elementos de UI.
+   * @param difficulty Difficuldade selecionada
+   */
   onValueChange(difficulty: Difficulty) {
     this.selectedDifficulty = difficulty;
 
@@ -59,6 +72,10 @@ export class GameStartComponent {
     }
   }
 
+  /**
+   * Boolean composto por 3 outros booleans.
+   * Só é true quando os valores das colunas, linhas e minas forem diferentes de null.
+   */
   get canStart(): boolean {
     return (
       this.colValue !== null &&
@@ -67,8 +84,20 @@ export class GameStartComponent {
     );
   }
 
-  //
+  // Wip
   startGame() {
     console.log("Let the game begin!")
+
+    // Vai começar o jogo
+    this.visible = false;
+  }
+
+  /**
+   * Fecha a Dialog.
+   * É corrido cada vez que a p-dialog se esconde (onHide).
+   */
+  close() {
+    // Devolve para o componente-pai a variável como false
+    this.visibleChange.emit(false);
   }
 }
