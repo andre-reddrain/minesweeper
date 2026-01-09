@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { Board } from './game/board'
 import { Cell } from './game/cell';
+import { BoardSettings } from './game/boardSettings';
 
 import { GameSettingsComponent } from './game-settings/game-settings.component';
 
@@ -24,9 +25,8 @@ export class AppComponent {
   // Dialog
   visible: boolean = false;
 
-  showDialog() {
-    this.visible = !this.visible;
-  }
+  // BoardSettings
+  currentBoardSettings: BoardSettings | undefined;
 
   // Debug Variables
   isDebug = false;
@@ -34,9 +34,7 @@ export class AppComponent {
   specialChars = ['`', '*', "\u{1F60E}", "\u{1F62E}", "\u{1F635}", "\u{1F642}"];
 
   title = 'Minesweeper';
-  board = new Board(9, 9, 10);
-
-  boardVariables = [0, 0, 0]
+  board = new Board();
 
   // Variáveis de UI - Emoji Face
   gameState: GameState = 'idle';
@@ -47,6 +45,25 @@ export class AppComponent {
 
   get formattedSeconds(): string {
     return this.seconds.toString().padStart(3, '0');
+  }
+
+  /**
+   * Define as definições do tabuleiro iniciais, e cria um tabuleiro com elas.
+   */
+  ngOnInit() {
+    this.currentBoardSettings = {
+      cols: 9,
+      rows: 9,
+      mines: 10,
+      timer: 999
+    }
+
+    this.board = new Board(
+      this.currentBoardSettings.cols,
+      this.currentBoardSettings.rows,
+      this.currentBoardSettings.mines,
+      this.currentBoardSettings.timer
+    );
   }
 
   /**
@@ -134,14 +151,50 @@ export class AppComponent {
   onMouseDown(event: MouseEvent) {
     if (event.button !== 0) return;
 
-    this.gameState = 'pressed';
+    if (this.board.result === 'ongoing') {
+      this.gameState = 'pressed';
+    }
   }
 
   /**
    * Reset ao tabuleiro. Começa um novo jogo
    */
   reset() {
-    this.board = new Board(5, 5, 5);
+    // Se não existir definições de tabuleiro, não faz nada
+    if (!this.currentBoardSettings) {
+      return
+    }
+
+    this.createBoard(this.currentBoardSettings)
     this.gameState = 'idle';
+  }
+
+  /**
+   * Mostra a Dialog
+   */
+  showDialog() {
+    this.visible = !this.visible;
+  }
+
+  /**
+   * Recolhe as definições do tabuleiro definidas na modal, e guarda-as no componente.
+   * @param settings Definições do tabuleiro
+   */
+  onBoardSettings(settings: BoardSettings) {
+    this.currentBoardSettings = settings;
+    this.createBoard(settings);
+  }
+
+  /**
+   * Cria o tabuleiro, com as definições corretas
+   * @param settings Definições do tabuleiro
+   */
+  createBoard(settings: BoardSettings) {
+    this.board = new Board(
+      settings.cols,
+      settings.rows,
+      settings.mines,
+      settings.timer
+    )
   }
 }

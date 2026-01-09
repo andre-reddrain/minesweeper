@@ -14,7 +14,7 @@ export class Board {
      * @param cols Colunas do tabuleiro
      * @param mines Minas do tabuleiro
      */
-    constructor(rows: number, cols: number, mines: number) {
+    constructor(rows: number = 9, cols: number = 9, mines: number = 10, timer: number = 999) {
         // Rows
         for (let row = 0; row < rows; row++) {
             this.cells[row] = [];

@@ -16,7 +16,7 @@
 </div>
 
 <!-- <p-button (click)="showDialog()" label="Show" /> -->
-<app-game-start [(visible)]="visible"></app-game-start>
+<app-game-settings (boardSettings)="onBoardSettings($event)" [(visible)]="visible"></app-game-settings>
 
 <div class="wrapper">
   <div class="flex align-items-center game-header">
@@ -40,7 +40,10 @@
 
     <!-- Timer -->
     <div class="flex-1 flex align-items-center justify-content-end">
-      <p class="timer">{{ formattedSeconds }}</p>
+      <div class="flex flex-column align-items-start">
+        <p class="m-0">Timer</p>
+        <p class="m-0 timer">{{ formattedSeconds }}</p>
+      </div>
     </div>
   </div>
 
