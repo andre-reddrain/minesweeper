@@ -20,11 +20,11 @@ interface Difficulty {
   selector: 'app-game-start',
   standalone: true,
   imports: [ButtonModule, DialogModule, SelectModule, FormsModule, InputNumberModule],
-  templateUrl: './game-start.component.html',
-  styleUrl: './game-start.component.scss'
+  templateUrl: './game-settings.component.html',
+  styleUrl: './game-settings.component.scss'
 })
 
-export class GameStartComponent {
+export class GameSettingsComponent {
   // Difficulties
   difficulties: Difficulty[] | undefined;
   selectedDifficulty: Difficulty | undefined;

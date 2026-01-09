@@ -8,14 +8,14 @@ import { ButtonModule } from 'primeng/button';
 import { Board } from './game/board'
 import { Cell } from './game/cell';
 
-import { GameStartComponent } from './game-start/game-start.component';
+import { GameSettingsComponent } from './game-settings/game-settings.component';
 
 type GameState = 'idle' | 'pressed' | 'lost' | 'won';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, ButtonModule, DialogModule, FormsModule, GameStartComponent],
+  imports: [NgFor, NgIf, NgClass, ButtonModule, DialogModule, FormsModule, GameSettingsComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
