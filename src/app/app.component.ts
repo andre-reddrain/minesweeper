@@ -214,6 +214,7 @@ export class AppComponent {
    * @param settings Definições do tabuleiro
    */
   createBoard(settings: BoardSettings) {
+    console.log(settings);
     this.board = new Board(
       settings.cols,
       settings.rows,

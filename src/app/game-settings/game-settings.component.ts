@@ -14,8 +14,8 @@ import { BoardSettings } from '../game/boardSettings';
  */
 interface Difficulty {
   name: string;
-  col: number;
   row: number;
+  col: number;
   mine: number;
   timer: number;
 }
@@ -41,8 +41,8 @@ export class GameSettingsComponent {
   userInput: boolean = false;
 
   // Variáveis temporárias para binding
-  colValue: number | null = null;
   rowValue: number | null = null;
+  colValue: number | null = null;
   mineValue: number | null = null;
   timerValue: number | null = null;
 
@@ -60,10 +60,10 @@ export class GameSettingsComponent {
    */
   ngOnInit() {
     this.difficulties = [
-      { name: "Beginner", col: 9, row: 9, mine: 10, timer: 999 },
-      { name: "Intermediate", col: 16, row: 16, mine: 40, timer: 999 },
-      { name: "Expert", col: 30, row: 16, mine: 99, timer: 999 },
-      { name: "Custom", col: 0, row: 0, mine: 0, timer: 0 },
+      { name: "Beginner", row: 9, col: 9, mine: 10, timer: 999 },
+      { name: "Intermediate", row: 16, col: 16, mine: 40, timer: 999 },
+      { name: "Expert", row: 30, col: 16, mine: 99, timer: 999 },
+      { name: "Custom", row: 0, col: 0, mine: 0, timer: 0 },
     ]
   }
 
@@ -75,14 +75,14 @@ export class GameSettingsComponent {
     this.selectedDifficulty = difficulty;
 
     if (difficulty.name !== 'Custom') {
-      this.colValue = difficulty.col;
       this.rowValue = difficulty.row;
+      this.colValue = difficulty.col;
       this.mineValue = difficulty.mine;
       this.timerValue = difficulty.timer;
       this.userInput = false;
     } else {
-      this.colValue = null;
       this.rowValue = null;
+      this.colValue = null;
       this.mineValue = null;
       this.timerValue = null;
       this.userInput = true;
@@ -95,8 +95,8 @@ export class GameSettingsComponent {
    */
   get canStart(): boolean {
     return (
-      (this.colValue !== null && !this.isColsInvalid) &&
       (this.rowValue !== null && !this.isRowsInvalid) &&
+      (this.colValue !== null && !this.isColsInvalid) &&
       (this.mineValue !== null && !this.isMinesInvalid) &&
       (this.timerValue !== null && !this.isTimerInvalid)
     );

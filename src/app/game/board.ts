@@ -15,13 +15,13 @@ export class Board {
      * @param mines Minas do tabuleiro
      */
     constructor(rows: number = 9, cols: number = 9, mines: number = 10, timer: number = 999) {
-        // Rows
-        for (let row = 0; row < rows; row++) {
-            this.cells[row] = [];
+        // Cols
+        for (let col = 0; col < cols; col++) {
+            this.cells[col] = [];
 
-            // Cols
-            for (let col = 0; col < cols; col++) {
-                this.cells[row][col] = new Cell(row, col);
+            // Rows
+            for (let row = 0; row < rows; row++) {
+                this.cells[col][row] = new Cell(col, row);
             }
         }
 
@@ -31,29 +31,29 @@ export class Board {
         }
 
         // Contagem das minas
-        for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
+        for (let col = 0; col < cols; col++) {
+            for (let row = 0; row < rows; row++) {
                 let adjacentMines = 0;
 
                 // 
                 for (let prox of PROXIMITY) {
                     if (
-                        this.cells[row + prox[0]] &&
-                        this.cells[row + prox[0]][col + prox[1]] &&
-                        this.cells[row + prox[0]][col + prox[1]].mine
+                        this.cells[col + prox[0]] &&
+                        this.cells[col + prox[0]][row + prox[1]] &&
+                        this.cells[col + prox[0]][row + prox[1]].mine
                     ) {
                         adjacentMines++
                     }
                 }
-                this.cells[row][col].proximityMines = adjacentMines;
+                this.cells[col][row].proximityMines = adjacentMines;
 
                 // Incremento do nº de minas
-                if (this.cells[row][col].mine) {
+                if (this.cells[col][row].mine) {
                     this.mineCount++;
                 }
             }
         }
-        this.remainingCells = (rows * cols) - this.mineCount;
+        this.remainingCells = (cols * rows) - this.mineCount;
     }
 
     /**
@@ -62,9 +62,9 @@ export class Board {
      * @returns Célula
      */
     getRandomCell(): Cell {
-        const row = Math.floor(Math.random() * this.cells.length);
-        const col = Math.floor(Math.random() * this.cells[row].length);
-        return this.cells[row][col]
+        const col = Math.floor(Math.random() * this.cells.length);
+        const row = Math.floor(Math.random() * this.cells[col].length);
+        return this.cells[col][row]
     }
 
     /**
@@ -90,10 +90,10 @@ export class Board {
             if(cell.proximityMines === 0) {
                 for (let prox of PROXIMITY) {
                     if (
-                        this.cells[cell.row + prox[0]] &&
-                        this.cells[cell.row + prox[0]][cell.column + prox[1]]
+                        this.cells[cell.column + prox[0]] &&
+                        this.cells[cell.column + prox[0]][cell.row + prox[1]]
                     ) {
-                        this.checkCell(this.cells[cell.row + prox[0]][cell.column + prox[1]])
+                        this.checkCell(this.cells[cell.column + prox[0]][cell.row + prox[1]])
                     }
                 }
             }
@@ -117,8 +117,8 @@ export class Board {
      * Revela todas as casas ainda por jogar.
      */
     revealAll() {
-        for (const row of this.cells) {
-            for (const cell of row) {
+        for (const col of this.cells) {
+            for (const cell of col) {
                 // if (cell.status === 'open') {
                 //     cell.status = 'clear';
                 // }
