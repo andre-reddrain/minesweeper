@@ -6,8 +6,7 @@ export class Board {
     cells: Cell[][] = []
     remainingCells = 0;
     mineCount = 0;
-    // result: string | null = 'start';    // start / ongoing / gameover / win
-    result: string | null = 'ongoing';
+    result: string | null = 'start';    // start / ongoing / gameover / win
 
     /**
      * Construtor base do tabuleiro

@@ -1,4 +1,4 @@
-<div *ngIf="isDebug">
+<div *ngIf="isDebug" class="debug">
   <h3>Debug only!</h3>
   <p>Bomb counter: {{ board.mineCount }}</p>
   <p>Remaining cells: {{ board.remainingCells }}</p>
@@ -15,71 +15,61 @@
   </div>
 </div>
 
-<p-button (click)="showDialog()" label="Show" />
-<p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
-    <span class="p-text-secondary block mb-8">Update your information.</span>
-    <div class="flex items-center gap-4 mb-4">
-        <label for="username" class="font-semibold w-24">Username?</label>
-        <input pInputText id="username" class="flex-auto" autocomplete="off" />
-    </div>
-    <div class="flex items-center gap-4 mb-8">
-        <label for="email" class="font-semibold w-24">Email</label>
-        <input pInputText id="email" class="flex-auto" autocomplete="off" />
-    </div>
-    <div class="flex justify-end gap-2">
-        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
-        <p-button label="Save" (click)="visible = false" />
-    </div>
-</p-dialog>
+<!-- <p-button (click)="showDialog()" label="Show" /> -->
+<app-game-start [visible]="visible"></app-game-start>
 
 <div class="wrapper">
-  <!-- <app-game-over 
-    *ngIf="board.result !== null"
-    [result]="board.result === 'win' ? 'You won!' : board.result === 'gameover' ? 'You lost!' : ''"
-    (rematch)="reset()">
-  </app-game-over> -->
-
-  <!-- <app-game-start>
-
-  </app-game-start> -->
-
-  <h1>Minesweeper</h1>
+  <div class="flex align-items-center game-header">
+    <div class="flex-1"></div>
+    <h1 class="m-0">Minesweeper</h1>
+    <div class="flex-1"></div>
+  </div>
 
   <!-- TODO Pass this to a component! Use flex-box space-between! -->
-  <div class="header">
-    <div class="cell-content">
+  <div class="flex justify-content-between align-items-center game-controls">
+
+    <!-- Settings -->
+    <div class="flex-1 align-items-center justify-content-center">
+      <p-button (click)="showDialog()">Settings</p-button>
+    </div>
+
+    <!-- Emoji -->
+    <div class="flex align-items-center justify-content-center">
       <span 
         style="background-color: yellow;"
         (click)="checkGameState(board.result)"
       >{{ gameStateIcon }}</span>
     </div>
-    <div class="cell-content">
+
+    <!-- Timer -->
+    <div class="flex-1 flex align-items-center justify-content-end">
       <p>Timer WIP!</p>
     </div>
   </div>
-  <br>
 
-  <table [style.--rows]="board.cells.length" [style.--cols]="board.cells[0].length">
-    <tr *ngFor="let row of board.cells">
-      <td 
-        *ngFor="let cell of row"
-        [style.background-color]="(cell.status === 'open' || cell.status === 'flag') ? 'lightgray' : 'rgb(192, 192, 192)'"
-        (click)="checkCell(cell)"
-        (contextmenu)="$event.preventDefault(); flag(cell)"
-      >
-        <!-- single wrapper for flex centering -->
-        <div class="cell-content"
-            [ngClass]="cell.status !== 'flag' && !cell.mine ? 'number-' + cell.proximityMines : ''">
-          
-          <!-- Use inline elements only -->
-          <span *ngIf="cell.status === 'clear' && !cell.mine && cell.proximityMines > 0">
-            {{ cell.proximityMines }}
-          </span>
+  <div class="game-board">
+    <table [style.--rows]="board.cells.length" [style.--cols]="board.cells[0].length">
+      <tr *ngFor="let row of board.cells">
+        <td 
+          *ngFor="let cell of row"
+          [style.background-color]="(cell.status === 'open' || cell.status === 'flag') ? 'lightgray' : 'rgb(192, 192, 192)'"
+          (click)="checkCell(cell)"
+          (contextmenu)="$event.preventDefault(); flag(cell)"
+        >
+          <!-- single wrapper for flex centering -->
+          <div class="cell-content"
+              [ngClass]="cell.status !== 'flag' && !cell.mine ? 'number-' + cell.proximityMines : ''">
+            
+            <!-- Use inline elements only -->
+            <span *ngIf="cell.status === 'clear' && !cell.mine && cell.proximityMines > 0">
+              {{ cell.proximityMines }}
+            </span>
 
-          <span class="flag" *ngIf="cell.status === 'flag'">`</span>
-          <span *ngIf="cell.mine && cell.status === 'clear'">*</span>
-        </div>
-      </td>
-    </tr>
-  </table>
+            <span class="flag" *ngIf="cell.status === 'flag'">`</span>
+            <span *ngIf="cell.mine && cell.status === 'clear'">*</span>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>

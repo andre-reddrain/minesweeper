@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NgFor, NgIf, NgClass } from '@angular/common';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms'
 
 import { DialogModule } from 'primeng/dialog';
@@ -14,7 +13,7 @@ import { GameStartComponent } from './game-start/game-start.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, ButtonModule, DialogModule, FormsModule],
+  imports: [NgFor, NgIf, NgClass, ButtonModule, DialogModule, FormsModule, GameStartComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -24,8 +23,7 @@ export class AppComponent {
   visible: boolean = false;
 
   showDialog() {
-    console.log('Dialog open attempt')
-    this.visible = true;
+    this.visible = !this.visible;
   }
 
   // Debug Variables
@@ -45,9 +43,6 @@ export class AppComponent {
   loseIcon = "\u{1F635}";
 
   gameStateIcon = this.startIcon;
-
-  // TODO Difficulties:
-  // 10 on Beginner (9x9 grid), 40 on Intermediate (16x16 grid), and 99 on Expert (30x16 grid) & Custom (max 30, any bombs)
 
   /**
    * Verifica a célula, e determina o estado do jogo.
@@ -94,7 +89,7 @@ export class AppComponent {
     if (result === 'gameover' || result == 'win') {
       this.reset();
     } else if (result === 'start') {
-      // Open GameStartComponent
+      this.showDialog();
     }
   }
 
