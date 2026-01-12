@@ -1,0 +1,9 @@
+/* ONLY if you need to override PrimeNG, otherwise remove your overrides */
+p-dialog{
+    font-family: "Microsoft Minesweeper Sans", sans-serif;
+    width: 400px;
+}
+
+p-dialog .form-wrapper {
+    height: 600px;
+}
