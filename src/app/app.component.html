@@ -59,7 +59,7 @@
         >
           <!-- single wrapper for flex centering -->
           <div class="cell-content"
-              [ngClass]="cell.status !== 'flag' && !cell.mine ? 'number-' + cell.proximityMines : ''">
+              [ngClass]="cell.status !== 'flag' && !cell.mine && cell.status == 'clear' ? 'number-' + cell.proximityMines : ''">
             
             <!-- Use inline elements only -->
             <span *ngIf="cell.status === 'clear' && !cell.mine && cell.proximityMines > 0">
