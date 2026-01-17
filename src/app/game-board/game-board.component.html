@@ -17,7 +17,9 @@
                     {{ cell.proximityMines }}
                     </span>
 
-                    <span class="flag" *ngIf="cell.status === 'flag'">`</span>
+                    <!-- <span class="flag" *ngIf="cell.status === 'flag'">`</span> -->
+                    <img *ngIf="cell.status === 'flag'" src="/images/flag.png" alt="Flag" class="flag"/>
+
                     <span *ngIf="cell.mine && cell.status === 'clear'">*</span>
                 </div>
             </td>

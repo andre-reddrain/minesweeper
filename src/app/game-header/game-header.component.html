@@ -20,7 +20,11 @@
   </div>
 
   <!-- Timer -->
-  <div class="flex-1 flex align-items-center justify-content-end">
+  <div class="flex-1 flex align-items-center justify-content-end gap-4">
+    <div class="flex flex-column align-items-start">
+      <p class="m-0">Mines</p>
+      <p class="m-0 timer">{{ game.minesRemaining }}</p>
+    </div>
     <div class="flex flex-column align-items-start">
       <p class="m-0">Timer</p>
       <p class="m-0 timer">{{ formattedSeconds }}</p>

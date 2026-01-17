@@ -39,17 +39,6 @@ export class Board {
     }
 
     /**
-     * Escolhe aleatoriamente uma célula do tabuleiro.
-     * Pode escolher células repetidas.
-     * @returns Célula
-     */
-    getRandomCell(): Cell {
-        const row = Math.floor(Math.random() * this.cells.length);
-        const col = Math.floor(Math.random() * this.cells[row].length);
-        return this.cells[row][col]
-    }
-
-    /**
      * Coloca as minas de forma eficaz e eficiente.
      */
     placeMines() {

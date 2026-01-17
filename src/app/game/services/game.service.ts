@@ -24,6 +24,7 @@ export class GameService {
   board!: Board;
   gameState: GameState = 'idle';
   firstPlay: Boolean = true;
+  flagCount = 0;
 
   // BoardSettings
   currentBoardSettings: BoardSettings | undefined;
@@ -31,6 +32,13 @@ export class GameService {
   // Variáveis de timer
   timer = 0;
   private intervalId: any;
+
+  /**
+   * Recolhe o número de minas restantes (que não foram marcadas como flag).
+   */
+  get minesRemaining(): number {
+    return this.board.mineCount - this.flagCount;
+  }
 
   /**
    * Cria um novo jogo
@@ -44,6 +52,7 @@ export class GameService {
     );
     this.gameState = 'idle';
     this.firstPlay = true;
+    this.flagCount = 0;
   }
 
   /**
@@ -111,8 +120,10 @@ export class GameService {
       // Se já tiver uma flag, reverte-a
       if(cell.status === 'flag') {
         cell.status = 'open';
-      } else if (cell.status !== 'clear') {
+        this.flagCount--
+      } else if (cell.status !== 'clear' && this.minesRemaining > 0) {
         cell.status = 'flag';
+        this.flagCount++
       }
     }
   }
