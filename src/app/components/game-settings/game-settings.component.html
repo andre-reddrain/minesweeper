@@ -23,13 +23,13 @@
         <!-- Rows -->
         <div class="flex align-items-center gap-3">
             <label for="rows" class="font-semibold w-8rem">Rows</label>
-            <p-inputnumber [(ngModel)]="rowValue" [disabled]="!userInput" mode="decimal" [min]="this.MIN_ROWS" [max]="this.MAX_ROWS" class="flex-1" [ngClass]="{ 'ng-invalid ng-dirty': isRowsInvalid }" />
+            <p-inputnumber [(ngModel)]="rowValue" (ngModelChange)="updateMaxMines()" [disabled]="!userInput" mode="decimal" [min]="this.MIN_ROWS" [max]="this.MAX_ROWS" class="flex-1" [ngClass]="{ 'ng-invalid ng-dirty': isRowsInvalid }" />
         </div>
 
         <!-- Columns -->
         <div class="flex align-items-center gap-3">
             <label for="cols" class="font-semibold w-8rem">Columns</label>
-            <p-inputnumber [(ngModel)]="colValue" [disabled]="!userInput" mode="decimal" [min]="this.MIN_COLS" [max]="this.MAX_COLS" class="flex-1" [ngClass]="{ 'ng-invalid ng-dirty': isColsInvalid }" />
+            <p-inputnumber [(ngModel)]="colValue" (ngModelChange)="updateMaxMines()" [disabled]="!userInput" mode="decimal" [min]="this.MIN_COLS" [max]="this.MAX_COLS" class="flex-1" [ngClass]="{ 'ng-invalid ng-dirty': isColsInvalid }" />
         </div>
 
         <!-- Mines -->

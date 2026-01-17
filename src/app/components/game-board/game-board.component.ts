@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GameService } from '../game/services/game.service';
+import { GameService } from '../../game/services/game.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 
 @Component({

@@ -8,7 +8,7 @@ import { InputNumberModule } from 'primeng/inputnumber'
 import { TooltipModule } from 'primeng/tooltip';
 import { NgClass } from '@angular/common';
 
-import { BoardSettings } from '../game/models/boardSettings';
+import { BoardSettings } from '../../game/models/boardSettings';
 
 /**
  * Interface Difficulty.
@@ -53,7 +53,7 @@ export class GameSettingsComponent {
   MAX_ROWS = 30;
   MAX_COLS = 30;
   MIN_MINES = 1;
-  MAX_MINES = 1;
+  MAX_MINES = 999;
   MAX_TIMER = 999;
   MIN_TIMER = 1;
 
@@ -89,6 +89,8 @@ export class GameSettingsComponent {
       this.timerValue = null;
       this.userInput = true;
     }
+
+    this.updateMaxMines();
   }
 
   /**
@@ -160,8 +162,18 @@ export class GameSettingsComponent {
       return false;
     }
 
-    this.MAX_MINES = (this.rowValue ?? 0) * (this.colValue ?? 0) - (this.rowValue ?? 0);
     return this.mineValue < this.MIN_MINES || this.mineValue > this.MAX_MINES;
+  }
+
+  /**
+   * Atualiza a quantidade máxima de minas que o utilizador pode inserir.
+   */
+  updateMaxMines() {
+    if ((this.rowValue ?? 0) > 0 && (this.colValue ?? 0) > 0) {
+      this.MAX_MINES = (this.rowValue ?? 0) * (this.colValue ?? 0) - (this.rowValue ?? 0);
+    } else {
+      this.MAX_MINES = 0;
+    }
   }
 
   /**

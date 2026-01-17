@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { GameService } from '../game/services/game.service';
+import { GameService } from '../../game/services/game.service';
 
 import { ButtonModule } from 'primeng/button';
 import { GameSettingsComponent } from '../game-settings/game-settings.component';
-import { BoardSettings } from '../game/models/boardSettings';
+import { BoardSettings } from '../../game/models/boardSettings';
 
 @Component({
   selector: 'app-game-header',

@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms'
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 
-import { GameHeaderComponent } from "./game-header/game-header.component";
-import { GameBoardComponent } from "./game-board/game-board.component";
+import { GameHeaderComponent } from "./components/game-header/game-header.component";
+import { GameBoardComponent } from "./components/game-board/game-board.component";
 
 import { GameService } from './game/services/game.service';
 
