@@ -23,25 +23,25 @@
         <!-- Rows -->
         <div class="flex align-items-center gap-3">
             <label for="rows" class="font-semibold w-8rem">Rows</label>
-            <p-inputnumber [(ngModel)]="rowValue" [disabled]="!userInput" mode="decimal" [min]="5" [max]="30" class="flex-1" [ngClass]="{ 'ng-invalid ng-dirty': isRowsInvalid }" />
+            <p-inputnumber [(ngModel)]="rowValue" [disabled]="!userInput" mode="decimal" [min]="this.MIN_ROWS" [max]="this.MAX_ROWS" class="flex-1" [ngClass]="{ 'ng-invalid ng-dirty': isRowsInvalid }" />
         </div>
 
         <!-- Columns -->
         <div class="flex align-items-center gap-3">
             <label for="cols" class="font-semibold w-8rem">Columns</label>
-            <p-inputnumber [(ngModel)]="colValue" [disabled]="!userInput" mode="decimal" [min]="5" [max]="30" class="flex-1" [ngClass]="{ 'ng-invalid ng-dirty': isColsInvalid }" />
+            <p-inputnumber [(ngModel)]="colValue" [disabled]="!userInput" mode="decimal" [min]="this.MIN_COLS" [max]="this.MAX_COLS" class="flex-1" [ngClass]="{ 'ng-invalid ng-dirty': isColsInvalid }" />
         </div>
 
         <!-- Mines -->
         <div class="flex align-items-center gap-3">
             <label for="mines" class="font-semibold w-8rem">Mines</label>
-            <p-inputnumber [(ngModel)]="mineValue" [disabled]="!userInput" mode="decimal" [min]="1" [max]="999" class="flex-1" [ngClass]="{ 'ng-invalid ng-dirty': isMinesInvalid }" />
+            <p-inputnumber pTooltip="(Rows * Cols) - Rows" tooltipPosition="top" [(ngModel)]="mineValue" [disabled]="!userInput" mode="decimal" [min]="this.MIN_MINES" [max]="this.MAX_MINES" class="flex-1" [ngClass]="{ 'ng-invalid ng-dirty': isMinesInvalid }" />
         </div>
 
         <!-- Timer -->
         <div class="flex align-items-center gap-3">
             <label for="timer" class="font-semibold w-8rem">Timer</label>
-            <p-inputnumber [(ngModel)]="timerValue" [disabled]="!userInput" mode="decimal" [min]="1" [max]="999" class="flex-1" [ngClass]="{ 'ng-invalid ng-dirty': isTimerInvalid }" />
+            <p-inputnumber [(ngModel)]="timerValue" [disabled]="!userInput" mode="decimal" [min]="this.MIN_TIMER" [max]="this.MAX_TIMER" class="flex-1" [ngClass]="{ 'ng-invalid ng-dirty': isTimerInvalid }" />
         </div>
    
         <!-- Buttons -->

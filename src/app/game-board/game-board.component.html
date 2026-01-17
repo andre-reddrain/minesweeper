@@ -1,0 +1,26 @@
+<div class="game-board">
+    <table [style.--rows]="game.board.cells.length" [style.--cols]="game.board.cells[0].length">
+        <tr *ngFor="let row of game.board.cells">
+            <td 
+                *ngFor="let cell of row"
+                [style.background-color]="(cell.status === 'open' || cell.status === 'flag') ? 'lightgray' : 'rgb(192, 192, 192)'"
+                (mousedown)="onMouseDown($event)"
+                (click)="game.handleCheckClick(cell)"
+                (contextmenu)="$event.preventDefault(); game.flag(cell)"
+            >
+                <!-- single wrapper for flex centering -->
+                <div class="cell-content"
+                    [ngClass]="cell.status !== 'flag' && !cell.mine && cell.status == 'clear' ? 'number-' + cell.proximityMines : ''">
+                    
+                    <!-- Use inline elements only -->
+                    <span *ngIf="cell.status === 'clear' && !cell.mine && cell.proximityMines > 0">
+                    {{ cell.proximityMines }}
+                    </span>
+
+                    <span class="flag" *ngIf="cell.status === 'flag'">`</span>
+                    <span *ngIf="cell.mine && cell.status === 'clear'">*</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

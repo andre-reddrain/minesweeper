@@ -1,7 +1,7 @@
 <div *ngIf="isDebug" class="debug">
   <h3>Debug only!</h3>
-  <p>Bomb counter: {{ board.mineCount }}</p>
-  <p>Remaining cells: {{ board.remainingCells }}</p>
+  <p>Bomb counter: {{ game.board.mineCount }}</p>
+  <p>Remaining cells: {{ game.board.remainingCells }}</p>
   <div style="display: inline flex; column-gap: 30px">
     <div *ngFor="let number of numbers">
       <span [ngClass]="'number-' + number">{{ number }}</span>
@@ -15,62 +15,8 @@
   </div>
 </div>
 
-<!-- <p-button (click)="showDialog()" label="Show" /> -->
-<app-game-settings (boardSettings)="onBoardSettings($event)" [(visible)]="visible"></app-game-settings>
-
 <div class="wrapper">
-  <div class="flex align-items-center game-header">
-    <div class="flex-1"></div>
-    <h1 class="m-0">Minesweeper</h1>
-    <div class="flex-1"></div>
-  </div>
+  <app-game-header></app-game-header>
 
-  <!-- TODO Pass this to a component! Use flex-box space-between! -->
-  <div class="flex justify-content-between align-items-center game-controls">
-
-    <!-- Settings -->
-    <div class="flex-1 align-items-center justify-content-center">
-      <p-button (click)="showDialog()">Settings</p-button>
-    </div>
-
-    <!-- Emoji -->
-    <div class="flex align-items-center justify-content-center"(mouseup)="checkGameState(board.result)">
-      <img [src]="'/faces/' + gameState + '.png'" alt="Game state" width="45" height="45" draggable="false"/>
-    </div>
-
-    <!-- Timer -->
-    <div class="flex-1 flex align-items-center justify-content-end">
-      <div class="flex flex-column align-items-start">
-        <p class="m-0">Timer</p>
-        <p class="m-0 timer">{{ formattedSeconds }}</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="game-board">
-    <table [style.--rows]="board.cells.length" [style.--cols]="board.cells[0].length">
-      <tr *ngFor="let row of board.cells">
-        <td 
-          *ngFor="let cell of row"
-          [style.background-color]="(cell.status === 'open' || cell.status === 'flag') ? 'lightgray' : 'rgb(192, 192, 192)'"
-          (mousedown)="onMouseDown($event)"
-          (click)="checkCell(cell)"
-          (contextmenu)="$event.preventDefault(); flag(cell)"
-        >
-          <!-- single wrapper for flex centering -->
-          <div class="cell-content"
-              [ngClass]="cell.status !== 'flag' && !cell.mine && cell.status == 'clear' ? 'number-' + cell.proximityMines : ''">
-            
-            <!-- Use inline elements only -->
-            <span *ngIf="cell.status === 'clear' && !cell.mine && cell.proximityMines > 0">
-              {{ cell.proximityMines }}
-            </span>
-
-            <span class="flag" *ngIf="cell.status === 'flag'">`</span>
-            <span *ngIf="cell.mine && cell.status === 'clear'">*</span>
-          </div>
-        </td>
-      </tr>
-    </table>
-  </div>
+  <app-game-board></app-game-board>
 </div>

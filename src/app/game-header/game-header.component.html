@@ -1,0 +1,29 @@
+<!-- <p-button (click)="showDialog()" label="Show" /> -->
+<app-game-settings (boardSettings)="onBoardSettings($event)" [(visible)]="visible"></app-game-settings>
+
+<div class="flex align-items-center game-header">
+  <div class="flex-1"></div>
+  <h1 class="m-0">Minesweeper</h1>
+  <div class="flex-1"></div>
+</div>
+
+<div class="flex justify-content-between align-items-center game-controls">
+
+  <!-- Settings -->
+  <div class="flex-1 align-items-center justify-content-center">
+    <p-button (click)="showDialog()">Settings</p-button>
+  </div>
+
+  <!-- Emoji -->
+  <div class="flex align-items-center justify-content-center"(mouseup)="onEmojiClick()">
+    <img [src]="'/faces/' + game.gameState + '.png'" alt="Game state" width="45" height="45" draggable="false"/>
+  </div>
+
+  <!-- Timer -->
+  <div class="flex-1 flex align-items-center justify-content-end">
+    <div class="flex flex-column align-items-start">
+      <p class="m-0">Timer</p>
+      <p class="m-0 timer">{{ formattedSeconds }}</p>
+    </div>
+  </div>
+</div>
