@@ -1,0 +1,56 @@
+.number-1 { color: rgb(0, 1, 249); }
+.number-2 { color: rgb(1, 126, 0); }
+.number-3 { color: rgb(253, 0, 1); }
+.number-4 { color: rgb(1, 1, 128); }
+.number-5 { color: rgb(129, 3, 0); }
+.number-6 { color: rgb(2, 127, 128); }
+.number-7 { color: rgb(0, 0, 0); }
+.number-8 { color: rgb(128, 128, 128); }
+
+.game-board {
+  table {
+    --cell-size: calc(80vmin / var(--cols));
+    width: calc(var(--cell-size) * var(--cols));
+    table-layout: fixed;
+    // width: 80vmin;
+    // height: 80vmin;
+    border-collapse: collapse;
+    font-size: calc(80vmin / var(--rows) * 0.6);
+  }
+
+  td {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    // aspect-ratio: 1 / 1;
+    padding: 0;
+    border: 1px solid gray;
+    box-shadow:
+      inset 1px 1px 0 #ffffff,
+      inset -1px -1px 0 #7a7a7a;
+  }
+
+  td span {
+    display: inline-block;
+    // font-size: clamp(14px, 90%, 40px);
+    line-height: 1;
+  }
+
+  .cell-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
+    font-size: calc(var(--cell-size) * 0.6);
+    line-height: 1;
+  }
+
+  .flag {
+    width: calc(var(--cell-size) * 0.6);
+    height: calc(var(--cell-size) * 0.6);
+    object-fit: contain;
+    image-rendering: pixelated;
+    pointer-events: none;
+  }
+}

@@ -5,9 +5,10 @@ import { DialogModule} from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { InputNumberModule } from 'primeng/inputnumber'
+import { TooltipModule } from 'primeng/tooltip';
 import { NgClass } from '@angular/common';
 
-import { BoardSettings } from '../game/boardSettings';
+import { BoardSettings } from '../../game/models/boardSettings';
 
 /**
  * Interface Difficulty.
@@ -23,7 +24,7 @@ interface Difficulty {
 @Component({
   selector: 'app-game-settings',
   standalone: true,
-  imports: [NgClass, ButtonModule, DialogModule, SelectModule, FormsModule, InputNumberModule],
+  imports: [NgClass, ButtonModule, DialogModule, SelectModule, FormsModule, InputNumberModule, TooltipModule],
   templateUrl: './game-settings.component.html',
   styleUrl: './game-settings.component.scss'
 })
@@ -52,6 +53,7 @@ export class GameSettingsComponent {
   MAX_ROWS = 30;
   MAX_COLS = 30;
   MIN_MINES = 1;
+  MAX_MINES = 999;
   MAX_TIMER = 999;
   MIN_TIMER = 1;
 
@@ -87,6 +89,8 @@ export class GameSettingsComponent {
       this.timerValue = null;
       this.userInput = true;
     }
+
+    this.updateMaxMines();
   }
 
   /**
@@ -102,20 +106,23 @@ export class GameSettingsComponent {
     );
   }
 
-  // Wip
-  startGame() {
+  /**
+   * Closes the component and sets the new board settings
+   * @returns Nothing if validations fail
+   */
+  startGame(): void {
     if (this.isRowsInvalid || this.isColsInvalid || this.isMinesInvalid || this.isTimerInvalid) {
-      
-    } else {
-      // Vai começar o jogo
-      this.visible = false;
-      this.boardSettings.emit({
-        rows: this.rowValue!,
-        cols: this.colValue!,
-        mines: this.mineValue!,
-        timer: this.timerValue!
-      });
+      return;
     }
+
+    // Vai começar o jogo
+    this.visible = false;
+    this.boardSettings.emit({
+      rows: this.rowValue!,
+      cols: this.colValue!,
+      mines: this.mineValue!,
+      timer: this.timerValue!
+    } as BoardSettings);
   }
 
   /**
@@ -154,8 +161,20 @@ export class GameSettingsComponent {
     if (this.mineValue === null) {
       return false;
     }
-    return this.mineValue < this.MIN_MINES;
-  } 
+
+    return this.mineValue < this.MIN_MINES || this.mineValue > this.MAX_MINES;
+  }
+
+  /**
+   * Atualiza a quantidade máxima de minas que o utilizador pode inserir.
+   */
+  updateMaxMines() {
+    if ((this.rowValue ?? 0) > 0 && (this.colValue ?? 0) > 0) {
+      this.MAX_MINES = (this.rowValue ?? 0) * (this.colValue ?? 0) - (this.rowValue ?? 0);
+    } else {
+      this.MAX_MINES = 0;
+    }
+  }
 
   /**
    * Boolean para controlar o input - Timer
